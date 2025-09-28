@@ -34,45 +34,50 @@ This project demonstrates an end-to-end pipeline: **build a simple Flask app →
 
 ⚙️ Setup & Installation
 1. Clone Repository
+```
 git clone https://github.com/alpheratzz21/Flask-App-Monitoring.git
 cd flask-app-monitoring
-
+```
 2. Build & Push Docker Image
+```
 docker build -f docker/Dockerfile -t rifqiananda/flask-app:v3 .
 docker push rifqiananda/flask-app:v3
-
+```
 3. Start Minikube (with Docker driver)
+```
 minikube start --driver=docker
-
+```
 4. Deploy App to Kubernetes
+```
 kubectl apply -f k8s/dev/deployment.yaml
-
+```
 5. Install Prometheus & Grafana via Helm
+```
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm install prometheus prometheus-community/prometheus
 helm install grafana grafana/grafana
-
+```
 6. Add Prometheus Additional Scrape Config
 
-Place prometheus-additional.yaml in project root.
+Place `prometheus-additional.yaml` in project root.
 
 Create secret from it:
-
+```
 kubectl create secret generic additional-scrape-configs --from-file=prometheus-additional.yaml -n default
-
+```
 🔑 Access Grafana
 
 Expose Grafana:
-
+```
 minikube service grafana --url
-
+```
 
 Get admin password:
-
+```
 kubectl get secret grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo
+```
 
-
-Default username is admin.
+Default username is `admin`.
 
 📊 Grafana Dashboard
 
@@ -96,9 +101,10 @@ sum by (endpoint) (http_requests_total{job="flask-app"})
 
 
 📂 Project Structure
+````
 flask-app-monitoring/
 ├── app/
-│   └── app.py             # Flask App with Prometheus metrics
+│   └── app.py
 ├── k8s/
 │   └── dev/
 │       └── deployment.yaml
@@ -106,11 +112,12 @@ flask-app-monitoring/
 ├── requirements.txt
 ├── prometheus-additional.yaml
 └── README.md
-
+````
 🚀 Future Improvements
 
-Add Loki for log aggregation
+- Add Loki for log aggregation
 
-Add custom metrics: latency, error rate
+- Add custom metrics: latency, error rate
 
-Setup CI/CD pipeline (GitHub Actions / Jenkins)
+- Setup CI/CD pipeline (GitHub Actions / Jenkins)
+
