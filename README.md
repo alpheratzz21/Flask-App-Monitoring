@@ -54,6 +54,7 @@ kubectl apply -f k8s/dev/deployment.yaml
 5. Install Prometheus & Grafana via Helm
 ```
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
 helm install prometheus prometheus-community/prometheus
 helm install grafana grafana/grafana
 ```
@@ -120,4 +121,5 @@ flask-app-monitoring/
 - Add custom metrics: latency, error rate
 
 - Setup CI/CD pipeline (GitHub Actions / Jenkins)
+
 
