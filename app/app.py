@@ -14,6 +14,16 @@ REQUEST_LATENCY = Histogram(
     "http_request_latency_seconds", "Request latency", ["endpoint"]
 
 )
+# counter metric for errors
+ERROR_COUNT = Counter(
+    "http_errors_total", "Total HTTP Errors", ["endpoint"]
+)
+
+@app.after_request
+def track_request(response):
+    if response.status_code >= 400:
+        ERROR_COUNT.labels(endpoint=request.path).inc()
+    return response
 
 @app.route("/")
 def hello_world():
