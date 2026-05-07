@@ -22,5 +22,5 @@ jobs:
       with:
         context: .
         push: true
-        file: Dockerfile
+        file: docker/Dockerfile
         tags: ${{ secrets.DOCKER_USERNAME }}/flask-app:latest
