@@ -17,6 +17,9 @@ This project demonstrates an end-to-end pipeline: **build a simple Flask app →
   - Total HTTP requests
   - Request rate per endpoint
   - Request distribution (Pie chart)
+- **CI/CD Pipeline** with GitHub Actions - auto build & push to DockerHub on push to main
+- **Error Rate Tracking** via 'http_errors_total' counter (excludes favicon noise)
+- **Request Latency** via Histogram per endpoint
 
 ---
 
@@ -98,8 +101,11 @@ Request Distribution (Pie Chart)
 ```
 sum by (endpoint) (http_requests_total{job="flask-app"})
 ```
+Error Rate per Endpoint
 
-
+```
+rate(http_errors_total{job="flask-app"}[1m])
+```
 
 📂 Project Structure
 ````
@@ -118,8 +124,8 @@ flask-app-monitoring/
 
 - Add Loki for log aggregation
 
-- Add custom metrics: latency, error rate
+- Add custom metrics: latency, error rate -- Done
 
-- Setup CI/CD pipeline (GitHub Actions / Jenkins)
+- Setup CI/CD pipeline (GitHub Actions / Jenkins) -- Done
 
 
