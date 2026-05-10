@@ -21,7 +21,7 @@ ERROR_COUNT = Counter(
 
 @app.after_request
 def track_request(response):
-    if response.status_code >= 400:
+    if response.status_code >= 400 and request.path != "/favicon.ico":
         ERROR_COUNT.labels(endpoint=request.path).inc()
     return response
 
@@ -40,10 +40,6 @@ def health():
 @app.route("/metrics")
 def metrics():
     return generate_latest(), 200, {"Content-Type": "text/plain; charset=utf-8"}
-
-@app.route('/favicon.ico')
-def favicon():
-    return '', 204
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
